@@ -8,9 +8,15 @@ Y = importdata('training_labels.txt');
 
 Y(Y==0)=10
 pause;
-lambda = 1;
+lambda = 5;
 k = 10;
 M = 4000;
+
+X1 = X(1:4000,:);
+Y1 = Y(1:4000);
+
+X2 = X(4001:5000,:);
+Y2 = Y(4001:5000);
 
 neuronsInHiddenLayer = 10;
 m = size(X,1);
@@ -24,8 +30,8 @@ initTheta2 = (epsilon2*2).*rand(k,neuronsInHiddenLayer+1) - epsilon2;
 
 initialParams = [initTheta1(:) ; initTheta2(:)];
 
-options = optimset('MaxIter', 100);
-costFunction = @(p) nnCostFunction(p,n,neuronsInHiddenLayer,k, X, Y, lambda);
+options = optimset('MaxIter', 50);
+costFunction = @(p) nnCostFunction(p,n,neuronsInHiddenLayer,k, X1, Y1, lambda);
 
 [trainedTheta, costCalculated] = fmincg(costFunction, initialParams, options);
 
@@ -36,6 +42,8 @@ Theta2 = reshape(trainedTheta((1 + (neuronsInHiddenLayer * (n + 1))):end),k, (ne
 
 
 
-pred = predict(Theta1, Theta2, X);
+predValuesForTrainingSet = predict(Theta1, Theta2, X1);
+predValuesForTestingSet = predict(Theta1,Theta2,X2);
 
-fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == Y)) * 100);
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(predValuesForTrainingSet== Y1)) * 100);
+fprintf('\nTesting Set Accuracy: %f\n', mean(double(predValuesForTestingSet == Y2)) * 100);
