@@ -30,7 +30,7 @@ initTheta2 = (epsilon2*2).*rand(k,neuronsInHiddenLayer+1) - epsilon2;
 
 initialParams = [initTheta1(:) ; initTheta2(:)];
 
-options = optimset('MaxIter', 50);
+options = optimset('MaxIter', 150);
 costFunction = @(p) nnCostFunction(p,n,neuronsInHiddenLayer,k, X1, Y1, lambda);
 
 [trainedTheta, costCalculated] = fmincg(costFunction, initialParams, options);
