@@ -5,9 +5,6 @@ close all;
 X = importdata('training_images.txt');
 Y = importdata('training_labels.txt');
 
-
-Y(Y==0)=10
-pause;
 lambda = 1;
 k = 10;
 M = 4000;
@@ -22,16 +19,18 @@ epsilon2 = sqrt(6)/sqrt( k + neuronsInHiddenLayer+1 );
 initTheta1 = (epsilon1*2).*rand(neuronsInHiddenLayer,n+1) - epsilon1;
 initTheta2 = (epsilon2*2).*rand(k,neuronsInHiddenLayer+1) - epsilon2;
 
-initialParams = [initTheta1(:) ; initTheta2(:)];
+initialParams = [initTheta1(:),initTheta2(:)];
 
-options = optimset('MaxIter', 100);
 costFunction = @(p) nnCostFunction(p,n,neuronsInHiddenLayer,k, X, Y, lambda);
 
-[trainedTheta, costCalculated] = fmincg(costFunction, initialParams, options);
+[trainedTheta, costCalculated] = fmincg(costFunction, initial_nn_params, options);
 
-Theta1 = reshape(trainedTheta(1:neuronsInHiddenLayer * (n + 1)),neuronsInHiddenLayer, (n + 1));
+% Obtain Theta1 and Theta2 back from nn_params
+Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
+                 hidden_layer_size, (input_layer_size + 1));
 
-Theta2 = reshape(trainedTheta((1 + (neuronsInHiddenLayer * (n + 1))):end),k, (neuronsInHiddenLayer+ 1));
+Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
+                 num_labels, (hidden_layer_size + 1));
 
 
 

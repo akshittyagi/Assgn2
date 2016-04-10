@@ -73,7 +73,7 @@ for i=1:m
     h=a3;
     
     num=y(i);
-    
+    if(num==0
     yi(num)=1;
     
     S1=-sum(yi.*log(h));

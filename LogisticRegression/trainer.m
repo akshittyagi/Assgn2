@@ -5,6 +5,7 @@ n = size(X,2);
 
 X = [ones(m,1) X];
 
+
 initialParams = zeros(n+1,1);
 thetaTrained = zeros(k,n+1);
 

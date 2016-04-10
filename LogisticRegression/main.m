@@ -12,7 +12,7 @@ x1 = X(3001:5000,:);
 y1 = Y(3001:5000);
 
 k = 10;
-lambda = 1;
+lambda = 5;
 
 m = size(X,1);
 randomIndices = randperm(m);
